@@ -57,7 +57,7 @@ const CategoryForm = ({ token }) => {
       const { data } = await api.post('/upload', imageFormData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
-      setImage(`http://localhost:5000${data}`);
+      setImage(`https://bcr-innovations-server-2.onrender.com${data}`);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to upload image');
     } finally {

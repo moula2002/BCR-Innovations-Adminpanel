@@ -87,7 +87,7 @@ const ProductForm = ({ token }) => {
       const { data } = await api.post('/upload', imageFormData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
-      setFormData({ ...formData, image: `http://localhost:5000${data}` });
+      setFormData({ ...formData, image: `https://bcr-innovations-server-2.onrender.com${data}` });
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to upload image');
     } finally {
