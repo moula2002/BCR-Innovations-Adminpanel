@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bcr-blue: #0271b8;
+  --color-bcr-blue-light: #e6f1f8;
+  --color-bcr-blue-dark: #015a93;
+  --color-bcr-orange: #f39221;
+  --color-bcr-orange-light: #fef4e9;
+  
+  --color-admin-bg: #f8fafc;
+  --color-admin-panel: #ffffff;
+  --color-admin-text: #0f172a;
+  --color-admin-muted: #64748b;
+  --color-admin-border: #e2e8f0;
+}
+
+body {
+  background-color: var(--color-admin-bg);
+  color: var(--color-admin-text);
+  font-family: 'Inter', system-ui, sans-serif;
+}
