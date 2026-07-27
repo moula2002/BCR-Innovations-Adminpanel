@@ -41,11 +41,16 @@ const ProductForm = ({ token }) => {
           const product = prodRes.data.data;
           
           if (product) {
-            setFormData({
-              name: product.name || '',
-              description: product.description || '',
-              image: product.image || '',
-              category: product.category || '',
+              let imageUrl = product.image || '';
+              if (imageUrl.includes('http://localhost:5000')) {
+                imageUrl = imageUrl.replace('http://localhost:5000', 'https://bcr-innovations-server-2.onrender.com');
+              }
+              
+              setFormData({
+                name: product.name || '',
+                description: product.description || '',
+                image: imageUrl,
+                category: product.category || '',
               price: product.price || '',
               brands: product.brands || '',
               sku: product.sku || '',
@@ -84,9 +89,7 @@ const ProductForm = ({ token }) => {
     
     setUploadingImage(true);
     try {
-      const { data } = await api.post('/upload', imageFormData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      const { data } = await api.post('/upload', imageFormData);
       setFormData({ ...formData, image: `https://bcr-innovations-server-2.onrender.com${data}` });
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to upload image');

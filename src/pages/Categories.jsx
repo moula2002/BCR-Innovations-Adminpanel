@@ -61,7 +61,7 @@ const Categories = ({ token }) => {
             {categories.map((cat) => (
               <tr key={cat.id} className="border-b border-gray-50 hover:bg-gray-50/50">
                 <td className="p-4">
-                  {cat.image ? <img src={cat.image} alt={cat.name} className="h-10 w-10 object-cover rounded-md" /> : <div className="h-10 w-10 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-xs">No img</div>}
+                  {cat.image ? <img src={cat.image.includes('http://localhost:5000') ? cat.image.replace('http://localhost:5000', 'https://bcr-innovations-server-2.onrender.com') : cat.image} alt={cat.name} className="h-10 w-10 object-cover rounded-md" /> : <div className="h-10 w-10 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-xs">No img</div>}
                 </td>
                 <td className="p-4 text-gray-900 font-medium">{cat.id}</td>
                 <td className="p-4 text-gray-600">{cat.name}</td>
