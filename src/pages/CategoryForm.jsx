@@ -29,7 +29,7 @@ const CategoryForm = ({ token }) => {
             setNewId(cat.id);
             setNewName(cat.name || '');
             setDescription(cat.description || '');
-            setImage(cat.image ? cat.image.replace('http://localhost:5000', 'https://bcr-innovations-server-2.onrender.com') : '');
+            setImage(cat.image || '');
             setSeoTitle(cat.seoTitle || '');
             setSeoDescription(cat.seoDescription || '');
           } else {
@@ -55,7 +55,7 @@ const CategoryForm = ({ token }) => {
     setUploadingImage(true);
     try {
       const { data } = await api.post('/upload', imageFormData);
-      setImage(`https://bcr-innovations-server-2.onrender.com${data}`);
+      setImage(`https://bcr-innovations-server-1.onrender.com${data}`);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to upload image');
     } finally {

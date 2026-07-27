@@ -44,7 +44,7 @@ const ProductForm = ({ token }) => {
               setFormData({
                 name: product.name || '',
                 description: product.description || '',
-                image: product.image ? product.image.replace('http://localhost:5000', 'https://bcr-innovations-server-2.onrender.com') : '',
+                image: product.image || '',
                 category: product.category || '',
               price: product.price || '',
               brands: product.brands || '',
@@ -85,7 +85,7 @@ const ProductForm = ({ token }) => {
     setUploadingImage(true);
     try {
       const { data } = await api.post('/upload', imageFormData);
-      setFormData({ ...formData, image: `https://bcr-innovations-server-2.onrender.com${data}` });
+      setFormData({ ...formData, image: `https://bcr-innovations-server-1.onrender.com${data}` });
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to upload image');
     } finally {

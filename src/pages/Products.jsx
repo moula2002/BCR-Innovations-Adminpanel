@@ -54,7 +54,7 @@ const Products = ({ token }) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {products.map((product) => (
           <div key={product._id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm flex flex-col">
-            <img src={product.image?.includes('http://localhost:5000') ? product.image.replace('http://localhost:5000', 'https://bcr-innovations-server-2.onrender.com') : product.image} alt={product.name} className="w-full h-48 object-cover bg-gray-100" />
+            <img src={product.image} alt={product.name} className="w-full h-48 object-cover bg-gray-100" />
             <div className="p-4 flex flex-col flex-grow">
               <div className="flex justify-between items-start mb-2">
                 <h3 className="font-bold text-gray-900">{product.name}</h3>

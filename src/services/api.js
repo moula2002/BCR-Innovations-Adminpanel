@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://bcr-innovations-server-2.onrender.com/api',
+  baseURL: 'https://bcr-innovations-server-1.onrender.com/api',
 });
 
 // Interceptor to add the token to every request
