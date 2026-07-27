@@ -4,7 +4,8 @@ import api from '../services/api';
 import { Save, ArrowLeft, Image as ImageIcon } from 'lucide-react';
 
 const SubcategoryForm = ({ token }) => {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params['*'];
   const navigate = useNavigate();
   const isEditing = Boolean(id);
 
@@ -70,7 +71,7 @@ const SubcategoryForm = ({ token }) => {
     e.preventDefault();
     try {
       if (isEditing) {
-        await api.put(`/subcategories/${newId}`, {
+        await api.put(`/subcategories/${encodeURIComponent(newId)}`, {
           name: newName, parentCategory, description, image
         });
       } else {

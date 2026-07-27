@@ -4,7 +4,8 @@ import api from '../services/api';
 import { Save, ArrowLeft, Image as ImageIcon } from 'lucide-react';
 
 const ProductForm = ({ token }) => {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params['*'];
   const navigate = useNavigate();
   const isEditing = Boolean(id);
 

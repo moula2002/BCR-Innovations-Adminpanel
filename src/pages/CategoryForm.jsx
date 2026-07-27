@@ -4,7 +4,8 @@ import api from '../services/api';
 import { Save, ArrowLeft, Image as ImageIcon } from 'lucide-react';
 
 const CategoryForm = ({ token }) => {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params['*'];
   const navigate = useNavigate();
   const isEditing = Boolean(id);
 
@@ -67,7 +68,7 @@ const CategoryForm = ({ token }) => {
     e.preventDefault();
     try {
       if (isEditing) {
-        await api.put(`/categories/${newId}`, {
+        await api.put(`/categories/${encodeURIComponent(newId)}`, {
           name: newName, description, image, seoTitle, seoDescription
         });
       } else {

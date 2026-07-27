@@ -36,16 +36,16 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="products" element={<Products token={token} />} />
           <Route path="products/new" element={<ProductForm token={token} />} />
-          <Route path="products/edit/:id" element={<ProductForm token={token} />} />
+          <Route path="products/edit/*" element={<ProductForm token={token} />} />
           <Route path="categories" element={<Categories token={token} />} />
           <Route path="categories/new" element={<CategoryForm token={token} />} />
-          <Route path="categories/edit/:id" element={<CategoryForm token={token} />} />
+          <Route path="categories/edit/*" element={<CategoryForm token={token} />} />
           <Route path="subcategories" element={<Subcategories token={token} />} />
           <Route path="subcategories/new" element={<SubcategoryForm token={token} />} />
-          <Route path="subcategories/edit/:id" element={<SubcategoryForm token={token} />} />
+          <Route path="subcategories/edit/*" element={<SubcategoryForm token={token} />} />
           <Route path="careers" element={<Careers token={token} />} />
           <Route path="careers/new" element={<CareerForm token={token} />} />
-          <Route path="careers/edit/:id" element={<CareerForm token={token} />} />
+          <Route path="careers/edit/*" element={<CareerForm token={token} />} />
           <Route path="inquiries" element={<Inquiries />} />
           <Route path="logos" element={<Logos />} />
           <Route path="contact" element={<Contact />} />

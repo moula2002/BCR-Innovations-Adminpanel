@@ -31,7 +31,7 @@ const Subcategories = ({ token }) => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure?')) return;
     try {
-      await api.delete(`/subcategories/${id}`);
+      await api.delete(`/subcategories/${encodeURIComponent(id)}`);
       fetchData();
     } catch (err) {
       setError('Failed to delete subcategory');

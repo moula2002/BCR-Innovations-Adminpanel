@@ -4,7 +4,8 @@ import api from '../services/api';
 import { Save, ArrowLeft } from 'lucide-react';
 
 const CareerForm = ({ token }) => {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params['*'];
   const navigate = useNavigate();
   const isEditing = Boolean(id);
 

@@ -26,7 +26,7 @@ const Categories = ({ token }) => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure?')) return;
     try {
-      await api.delete(`/categories/${id}`);
+      await api.delete(`/categories/${encodeURIComponent(id)}`);
       fetchCategories();
     } catch (err) {
       setError('Failed to delete category');
