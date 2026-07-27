@@ -8,13 +8,16 @@ import {
   Image as ImageIcon, 
   Phone, 
   Settings,
-  LogOut
+  LogOut,
+  Briefcase
 } from 'lucide-react';
 
 const navItems = [
   { path: '/', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
   { path: '/categories', label: 'Categories', icon: <Tags size={20} /> },
+  { path: '/subcategories', label: 'Subcategories', icon: <Tags size={20} /> },
   { path: '/products', label: 'Products', icon: <Package size={20} /> },
+  { path: '/careers', label: 'Careers', icon: <Briefcase size={20} /> },
   { path: '/inquiries', label: 'Inquiries', icon: <MessageSquare size={20} /> },
   { path: '/logos', label: 'Client Logos', icon: <ImageIcon size={20} /> },
   { path: '/contact', label: 'Contact Info', icon: <Phone size={20} /> },

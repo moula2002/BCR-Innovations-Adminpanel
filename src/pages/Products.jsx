@@ -67,8 +67,7 @@ const Products = ({ token }) => {
                   </button>
                 </div>
               </div>
-              <p className="text-sm text-gray-500 mb-2">{categories.find(c => c.id === product.category)?.name}</p>
-              <p className="text-sm font-medium text-gray-900 mt-auto">{product.price}</p>
+              <p className="text-sm text-gray-500 mb-2 mt-auto">{categories.find(c => c.id === product.category)?.name}</p>
             </div>
           </div>
         ))}

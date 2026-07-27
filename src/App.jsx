@@ -11,6 +11,10 @@ import Logos from './pages/Logos';
 import Contact from './pages/Contact';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
+import Subcategories from './pages/Subcategories';
+import SubcategoryForm from './pages/SubcategoryForm';
+import Careers from './pages/Careers';
+import CareerForm from './pages/CareerForm';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('adminToken') || null);
@@ -36,6 +40,12 @@ function App() {
           <Route path="categories" element={<Categories token={token} />} />
           <Route path="categories/new" element={<CategoryForm token={token} />} />
           <Route path="categories/edit/:id" element={<CategoryForm token={token} />} />
+          <Route path="subcategories" element={<Subcategories token={token} />} />
+          <Route path="subcategories/new" element={<SubcategoryForm token={token} />} />
+          <Route path="subcategories/edit/:id" element={<SubcategoryForm token={token} />} />
+          <Route path="careers" element={<Careers token={token} />} />
+          <Route path="careers/new" element={<CareerForm token={token} />} />
+          <Route path="careers/edit/:id" element={<CareerForm token={token} />} />
           <Route path="inquiries" element={<Inquiries />} />
           <Route path="logos" element={<Logos />} />
           <Route path="contact" element={<Contact />} />

@@ -9,6 +9,7 @@ const ProductForm = ({ token }) => {
   const isEditing = Boolean(id);
 
   const [categories, setCategories] = useState([]);
+  const [allSubcategories, setAllSubcategories] = useState([]);
   const [loading, setLoading] = useState(isEditing);
   const [error, setError] = useState('');
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -18,7 +19,7 @@ const ProductForm = ({ token }) => {
     description: '',
     image: '',
     category: '',
-    price: '',
+    subcategory: '',
     brands: '',
     sku: '',
     features: '',
@@ -33,8 +34,12 @@ const ProductForm = ({ token }) => {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const catRes = await api.get('/categories');
+        const [catRes, subRes] = await Promise.all([
+          api.get('/categories'),
+          api.get('/subcategories')
+        ]);
         setCategories(catRes.data.data);
+        setAllSubcategories(subRes.data.data);
 
         if (isEditing) {
           const prodRes = await api.get(`/products/${id}`);
@@ -46,7 +51,7 @@ const ProductForm = ({ token }) => {
                 description: product.description || '',
                 image: product.image || '',
                 category: product.category || '',
-              price: product.price || '',
+                subcategory: product.subcategory || '',
               brands: product.brands || '',
               sku: product.sku || '',
               features: Array.isArray(product.features) ? product.features.join(', ') : product.features || '',
@@ -157,9 +162,14 @@ const ProductForm = ({ token }) => {
             </div>
             
             <div>
-              <label className="text-sm font-semibold text-gray-700 mb-1 block">Price <span className="text-gray-400 font-normal">(e.g., "₹999" or "Contact")</span></label>
-              <input name="price" value={formData.price} onChange={handleChange} className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:border-bcr-blue focus:bg-white outline-none transition-all" />
+              <label className="text-sm font-semibold text-gray-700 mb-1 block">Subcategory</label>
+              <select name="subcategory" value={formData.subcategory} onChange={handleChange} className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:border-bcr-blue focus:bg-white outline-none transition-all">
+                <option value="">No Subcategory</option>
+                {allSubcategories.filter(sub => sub.parentCategory === formData.category).map(sub => <option key={sub.id} value={sub.id}>{sub.name}</option>)}
+              </select>
             </div>
+            
+
             
             <div>
               <label className="text-sm font-semibold text-gray-700 mb-1 block">Brands</label>
