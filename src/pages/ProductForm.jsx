@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import api from '../services/api';
-import { Save, ArrowLeft, Image as ImageIcon } from 'lucide-react';
+import { Save, ArrowLeft, Image as ImageIcon, Plus, Trash2 } from 'lucide-react';
 import { getImageUrl } from '../utils';
 
 const ProductForm = ({ token }) => {
@@ -30,7 +30,8 @@ const ProductForm = ({ token }) => {
     size: '',
     capacity: '',
     warranty: '',
-    applications: ''
+    applications: '',
+    tabs: []
   });
 
   useEffect(() => {
@@ -62,7 +63,8 @@ const ProductForm = ({ token }) => {
               size: product.size || '',
               capacity: product.capacity || '',
               warranty: product.warranty || '',
-              applications: product.applications || ''
+              applications: product.applications || '',
+              tabs: product.tabs || []
             });
           } else {
             setError('Product not found');
@@ -95,6 +97,59 @@ const ProductForm = ({ token }) => {
       setFormData({ ...formData, image: data });
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to upload image');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleAddTab = () => {
+    setFormData({
+      ...formData,
+      tabs: [...formData.tabs, { name: 'New Section', title: '', description: '', image: '', features: [] }]
+    });
+  };
+
+  const handleUpdateTab = (tabIndex, field, value) => {
+    const updatedTabs = [...formData.tabs];
+    updatedTabs[tabIndex][field] = value;
+    setFormData({ ...formData, tabs: updatedTabs });
+  };
+
+  const handleRemoveTab = (tabIndex) => {
+    const updatedTabs = [...formData.tabs];
+    updatedTabs.splice(tabIndex, 1);
+    setFormData({ ...formData, tabs: updatedTabs });
+  };
+
+  const handleAddFeature = (tabIndex) => {
+    const updatedTabs = [...formData.tabs];
+    updatedTabs[tabIndex].features.push({ heading: '', description: '', icon: '' });
+    setFormData({ ...formData, tabs: updatedTabs });
+  };
+
+  const handleUpdateFeature = (tabIndex, featureIndex, field, value) => {
+    const updatedTabs = [...formData.tabs];
+    updatedTabs[tabIndex].features[featureIndex][field] = value;
+    setFormData({ ...formData, tabs: updatedTabs });
+  };
+
+  const handleRemoveFeature = (tabIndex, featureIndex) => {
+    const updatedTabs = [...formData.tabs];
+    updatedTabs[tabIndex].features.splice(featureIndex, 1);
+    setFormData({ ...formData, tabs: updatedTabs });
+  };
+
+  const handleTabImageChange = async (e, tabIndex) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const imageFormData = new FormData();
+    imageFormData.append('image', file);
+    setUploadingImage(true);
+    try {
+      const { data } = await api.post('/upload', imageFormData);
+      handleUpdateTab(tabIndex, 'image', data);
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to upload tab image');
     } finally {
       setUploadingImage(false);
     }
@@ -221,6 +276,86 @@ const ProductForm = ({ token }) => {
             <div className="md:col-span-2">
               <label className="text-sm font-semibold text-gray-700 mb-1 block">Description</label>
               <textarea name="description" value={formData.description} onChange={handleChange} rows="4" className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:border-bcr-blue focus:bg-white outline-none transition-all resize-none" required></textarea>
+            </div>
+
+            {/* Rich Content Tabs Section */}
+            <div className="md:col-span-2 mt-8 pt-8 border-t border-gray-200">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900">Rich Content Sections <span className="text-sm font-normal text-gray-400 ml-2">(Optional)</span></h2>
+                  <p className="text-sm text-gray-500">Add detailed sections (like Overview, Design, Material) with images and bullet points.</p>
+                </div>
+                <button type="button" onClick={handleAddTab} className="px-4 py-2 bg-bcr-blue/10 text-bcr-blue font-semibold rounded-xl flex items-center gap-2 hover:bg-bcr-blue hover:text-white transition-all">
+                  <Plus className="w-4 h-4" /> Add Section
+                </button>
+              </div>
+
+              <div className="space-y-6">
+                {formData.tabs.map((tab, tIdx) => (
+                  <div key={tIdx} className="p-6 bg-white border border-gray-200 rounded-2xl shadow-sm">
+                    <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-100">
+                      <input 
+                        type="text" value={tab.name} onChange={(e) => handleUpdateTab(tIdx, 'name', e.target.value)}
+                        placeholder="Section Name (e.g. Design)"
+                        className="text-lg font-bold bg-transparent border-none focus:outline-none focus:ring-0 text-bcr-blue placeholder:text-gray-300 w-64"
+                      />
+                      <button type="button" onClick={() => handleRemoveTab(tIdx)} className="text-red-400 hover:text-red-600 p-2 hover:bg-red-50 rounded-lg transition-colors">
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                      <div>
+                        <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Section Title</label>
+                        <input type="text" value={tab.title} onChange={(e) => handleUpdateTab(tIdx, 'title', e.target.value)} className="w-full px-3 py-2 bg-gray-50 rounded-lg border border-gray-200 focus:border-bcr-blue outline-none" placeholder="e.g. Continuous Display Mastery" />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Description</label>
+                        <textarea value={tab.description} onChange={(e) => handleUpdateTab(tIdx, 'description', e.target.value)} rows="2" className="w-full px-3 py-2 bg-gray-50 rounded-lg border border-gray-200 focus:border-bcr-blue outline-none resize-none" placeholder="Section description..." />
+                      </div>
+                      <div className="md:col-span-2">
+                         <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Section Image</label>
+                         <div className="flex items-center gap-4">
+                           {tab.image && <img src={getImageUrl(tab.image)} alt="Tab" className="w-16 h-16 object-cover rounded-lg border border-gray-200" />}
+                           <input type="file" accept="image/*" onChange={(e) => handleTabImageChange(e, tIdx)} className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-bcr-blue hover:file:bg-blue-100 cursor-pointer" />
+                         </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                      <div className="flex justify-between items-center mb-4">
+                        <h4 className="text-sm font-bold text-gray-700">Features / Bullet Points</h4>
+                        <button type="button" onClick={() => handleAddFeature(tIdx)} className="text-xs font-semibold text-bcr-blue hover:text-bcr-blue-dark flex items-center gap-1">
+                          <Plus className="w-3 h-3" /> Add Feature
+                        </button>
+                      </div>
+                      <div className="space-y-3">
+                        {tab.features.map((feat, fIdx) => (
+                          <div key={fIdx} className="flex items-start gap-3 bg-white p-3 rounded-lg border border-gray-200">
+                            <div className="flex-1 space-y-2">
+                              <div className="flex gap-2">
+                                <input type="text" value={feat.heading} onChange={(e) => handleUpdateFeature(tIdx, fIdx, 'heading', e.target.value)} placeholder="Heading (e.g. Glass structure)" className="flex-1 px-2 py-1.5 text-sm bg-gray-50 rounded border border-gray-200 focus:border-bcr-blue outline-none" />
+                                <input type="text" value={feat.icon} onChange={(e) => handleUpdateFeature(tIdx, fIdx, 'icon', e.target.value)} placeholder="Icon (e.g. Layers)" className="w-32 px-2 py-1.5 text-sm bg-gray-50 rounded border border-gray-200 focus:border-bcr-blue outline-none" />
+                              </div>
+                              <textarea value={feat.description} onChange={(e) => handleUpdateFeature(tIdx, fIdx, 'description', e.target.value)} rows="2" placeholder="Feature description..." className="w-full px-2 py-1.5 text-sm bg-gray-50 rounded border border-gray-200 focus:border-bcr-blue outline-none resize-none" />
+                            </div>
+                            <button type="button" onClick={() => handleRemoveFeature(tIdx, fIdx)} className="mt-1 text-gray-400 hover:text-red-500 transition-colors">
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                        {tab.features.length === 0 && <p className="text-xs text-gray-400 text-center py-2">No features added to this section.</p>}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {formData.tabs.length === 0 && (
+                  <div className="text-center py-12 bg-gray-50 rounded-2xl border border-dashed border-gray-300">
+                    <p className="text-gray-500 mb-2">No rich content sections yet.</p>
+                    <button type="button" onClick={handleAddTab} className="text-sm font-semibold text-bcr-blue hover:underline">Add your first section (e.g. Overview)</button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
