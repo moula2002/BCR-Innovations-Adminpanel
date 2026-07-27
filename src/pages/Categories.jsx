@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { Plus, Trash2, Edit2 } from 'lucide-react';
+import { getImageUrl } from '../utils';
 
 const Categories = ({ token }) => {
   const [categories, setCategories] = useState([]);
@@ -61,7 +62,7 @@ const Categories = ({ token }) => {
             {categories.map((cat) => (
               <tr key={cat.id} className="border-b border-gray-50 hover:bg-gray-50/50">
                 <td className="p-4">
-                  {cat.image ? <img src={cat.image} alt={cat.name} className="h-10 w-10 object-cover rounded-md" /> : <div className="h-10 w-10 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-xs">No img</div>}
+                  {cat.image ? <img src={getImageUrl(cat.image)} alt={cat.name} className="h-10 w-10 object-cover rounded-md" /> : <div className="h-10 w-10 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-xs">No img</div>}
                 </td>
                 <td className="p-4 text-gray-900 font-medium">{cat.id}</td>
                 <td className="p-4 text-gray-600">{cat.name}</td>

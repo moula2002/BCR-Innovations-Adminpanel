@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import api from '../services/api';
 import { Save, ArrowLeft, Image as ImageIcon } from 'lucide-react';
+import { getImageUrl } from '../utils';
 
 const ProductForm = ({ token }) => {
   const params = useParams();
@@ -91,7 +92,7 @@ const ProductForm = ({ token }) => {
     setUploadingImage(true);
     try {
       const { data } = await api.post('/upload', imageFormData);
-      setFormData({ ...formData, image: `https://bcr-innovations-server-1.onrender.com${data}` });
+      setFormData({ ...formData, image: data });
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to upload image');
     } finally {
@@ -137,7 +138,7 @@ const ProductForm = ({ token }) => {
               <label className="text-sm font-semibold text-gray-700 mb-1 block">Product Image</label>
               <div className="flex items-start gap-6 p-4 rounded-xl border border-gray-200 bg-gray-50/50">
                 <div className="w-32 h-32 rounded-lg bg-gray-100 border border-gray-200 flex flex-col items-center justify-center text-gray-400 overflow-hidden shrink-0">
-                  {formData.image ? <img src={formData.image} alt="Preview" className="w-full h-full object-cover" /> : <ImageIcon className="w-8 h-8 opacity-50" />}
+                  {formData.image ? <img src={getImageUrl(formData.image)} alt="Preview" className="w-full h-full object-cover" /> : <ImageIcon className="w-8 h-8 opacity-50" />}
                 </div>
                 <div className="flex-1 mt-2">
                   <input 

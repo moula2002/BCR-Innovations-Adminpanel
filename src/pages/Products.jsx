@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { Plus, Trash2, Edit2 } from 'lucide-react';
+import { getImageUrl } from '../utils';
 
 const Products = ({ token }) => {
   const [products, setProducts] = useState([]);
@@ -54,7 +55,7 @@ const Products = ({ token }) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {products.map((product) => (
           <div key={product._id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm flex flex-col">
-            <img src={product.image} alt={product.name} className="w-full h-48 object-cover bg-gray-100" />
+            <img src={getImageUrl(product.image)} alt={product.name} className="w-full h-48 object-cover bg-gray-100" />
             <div className="p-4 flex flex-col flex-grow">
               <div className="flex justify-between items-start mb-2">
                 <h3 className="font-bold text-gray-900">{product.name}</h3>

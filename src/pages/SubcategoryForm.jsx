@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import api from '../services/api';
 import { Save, ArrowLeft, Image as ImageIcon } from 'lucide-react';
+import { getImageUrl } from '../utils';
 
 const SubcategoryForm = ({ token }) => {
   const params = useParams();
@@ -59,7 +60,7 @@ const SubcategoryForm = ({ token }) => {
     setUploadingImage(true);
     try {
       const { data } = await api.post('/upload', imageFormData);
-      setImage(`https://bcr-innovations-server-1.onrender.com${data}`);
+      setImage(data);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to upload image');
     } finally {
@@ -133,7 +134,7 @@ const SubcategoryForm = ({ token }) => {
               <label className="text-sm font-semibold text-gray-700 mb-1 block">Subcategory Image</label>
               <div className="flex items-start gap-6 p-4 rounded-xl border border-gray-200 bg-gray-50/50">
                 <div className="w-24 h-24 rounded-lg bg-gray-100 border border-gray-200 flex flex-col items-center justify-center text-gray-400 overflow-hidden shrink-0">
-                  {image ? <img src={image} alt="Preview" className="w-full h-full object-cover" /> : <ImageIcon className="w-8 h-8 opacity-50" />}
+                  {image ? <img src={getImageUrl(image)} alt="Preview" className="w-full h-full object-cover" /> : <ImageIcon className="w-8 h-8 opacity-50" />}
                 </div>
                 <div className="flex-1">
                   <input 

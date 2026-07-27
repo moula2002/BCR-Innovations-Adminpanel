@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { Plus, Trash2, Edit2 } from 'lucide-react';
+import { getImageUrl } from '../utils';
 
 const Subcategories = ({ token }) => {
   const [subcategories, setSubcategories] = useState([]);
@@ -67,7 +68,7 @@ const Subcategories = ({ token }) => {
             {subcategories.map((sub) => (
               <tr key={sub.id} className="border-b border-gray-50 hover:bg-gray-50/50">
                 <td className="p-4">
-                  {sub.image ? <img src={sub.image} alt={sub.name} className="h-10 w-10 object-cover rounded-md" /> : <div className="h-10 w-10 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-xs">No img</div>}
+                  {sub.image ? <img src={getImageUrl(sub.image)} alt={sub.name} className="h-10 w-10 object-cover rounded-md" /> : <div className="h-10 w-10 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-xs">No img</div>}
                 </td>
                 <td className="p-4 text-gray-900 font-medium">{sub.id}</td>
                 <td className="p-4 text-gray-600">{sub.name}</td>
