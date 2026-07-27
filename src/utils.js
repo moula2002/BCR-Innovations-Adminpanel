@@ -1,9 +1,7 @@
 export const getImageUrl = (imagePath) => {
   if (!imagePath) return '/placeholder-image.jpg';
   
-  const API_BASE_URL = window.location.hostname === 'localhost'
-    ? 'http://localhost:5000'
-    : 'https://bcr-innovations-server-1.onrender.com';
+  const API_BASE_URL = 'https://bcr-innovations-server-1.onrender.com';
 
   // Handle case where imagePath is an object (e.g., populated MongoDB document)
   if (typeof imagePath === 'object') {
