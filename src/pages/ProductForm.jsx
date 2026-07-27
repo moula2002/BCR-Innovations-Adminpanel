@@ -165,6 +165,7 @@ const ProductForm = ({ token }) => {
       }
       navigate('/products');
     } catch (err) {
+      console.error("Product creation error details:", err.response?.data);
       setError(err.response?.data?.error || `Failed to ${isEditing ? 'update' : 'add'} product`);
     }
   };
