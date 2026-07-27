@@ -41,15 +41,10 @@ const ProductForm = ({ token }) => {
           const product = prodRes.data.data;
           
           if (product) {
-              let imageUrl = product.image || '';
-              if (imageUrl.includes('http://localhost:5000')) {
-                imageUrl = imageUrl.replace('http://localhost:5000', 'https://bcr-innovations-server-2.onrender.com');
-              }
-              
               setFormData({
                 name: product.name || '',
                 description: product.description || '',
-                image: imageUrl,
+                image: product.image ? product.image.replace('http://localhost:5000', 'https://bcr-innovations-server-2.onrender.com') : '',
                 category: product.category || '',
               price: product.price || '',
               brands: product.brands || '',

@@ -29,11 +29,7 @@ const CategoryForm = ({ token }) => {
             setNewId(cat.id);
             setNewName(cat.name || '');
             setDescription(cat.description || '');
-            let imageUrl = cat.image || '';
-            if (imageUrl.includes('http://localhost:5000')) {
-              imageUrl = imageUrl.replace('http://localhost:5000', 'https://bcr-innovations-server-2.onrender.com');
-            }
-            setImage(imageUrl);
+            setImage(cat.image ? cat.image.replace('http://localhost:5000', 'https://bcr-innovations-server-2.onrender.com') : '');
             setSeoTitle(cat.seoTitle || '');
             setSeoDescription(cat.seoDescription || '');
           } else {
