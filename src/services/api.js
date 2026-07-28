@@ -24,4 +24,18 @@ api.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
+// Interceptor to handle 401 Unauthorized errors (expired/invalid token)
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('adminToken');
+      if (window.location.pathname !== '/') {
+        window.location.href = '/';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default api;
