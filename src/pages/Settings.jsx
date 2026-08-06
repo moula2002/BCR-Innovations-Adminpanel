@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Camera, Save, User, RefreshCw, AlertCircle } from 'lucide-react';
+import { Camera, Save, User, RefreshCw, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import api from '../services/api';
 
 const Settings = () => {
@@ -10,6 +10,8 @@ const Settings = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -167,26 +169,44 @@ const Settings = () => {
               />
             </div>
             
-            <div className="space-y-2">
+            <div className="space-y-2 relative">
               <label className="block text-sm font-medium text-slate-700">New Password</label>
-              <input 
-                type="password" 
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-admin-border bg-slate-50 focus:bg-white focus:ring-2 focus:ring-bcr-blue/20 focus:border-bcr-blue transition-all outline-none"
-                placeholder="••••••••"
-              />
+              <div className="relative">
+                <input 
+                  type={showNewPassword ? 'text' : 'password'}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full pl-4 pr-12 py-3 rounded-xl border border-admin-border bg-slate-50 focus:bg-white focus:ring-2 focus:ring-bcr-blue/20 focus:border-bcr-blue transition-all outline-none"
+                  placeholder="••••••••"
+                />
+                <button 
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                >
+                  {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
             </div>
             
-            <div className="space-y-2">
+            <div className="space-y-2 relative">
               <label className="block text-sm font-medium text-slate-700">Confirm New Password</label>
-              <input 
-                type="password" 
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-admin-border bg-slate-50 focus:bg-white focus:ring-2 focus:ring-bcr-blue/20 focus:border-bcr-blue transition-all outline-none"
-                placeholder="••••••••"
-              />
+              <div className="relative">
+                <input 
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full pl-4 pr-12 py-3 rounded-xl border border-admin-border bg-slate-50 focus:bg-white focus:ring-2 focus:ring-bcr-blue/20 focus:border-bcr-blue transition-all outline-none"
+                  placeholder="••••••••"
+                />
+                <button 
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                >
+                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
             </div>
           </div>
 
