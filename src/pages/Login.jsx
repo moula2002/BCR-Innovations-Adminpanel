@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { Lock, User, Eye, EyeOff } from 'lucide-react';
+import BcrLogo from '../components/BcrLogo';
 
 const Login = ({ setToken }) => {
   const [username, setUsername] = useState('');
@@ -34,8 +35,8 @@ const Login = ({ setToken }) => {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-bcr-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Lock className="w-8 h-8 text-bcr-blue" />
+          <div className="flex justify-center mb-6 transform scale-[1.75]">
+            <BcrLogo />
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Admin Login</h1>
           <p className="text-gray-500 mt-2">Sign in to manage BCR Innovations</p>
