@@ -31,7 +31,43 @@ const Settings = () => {
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      setProfileImage(URL.createObjectURL(e.target.files[0]));
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      
+      reader.onload = (event) => {
+        const img = new window.Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 250;
+          const MAX_HEIGHT = 250;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Compress to JPEG with 0.8 quality to keep payload small
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+          setProfileImage(dataUrl);
+        };
+        img.src = event.target.result;
+      };
+      
+      reader.readAsDataURL(file);
     }
   };
 
@@ -47,15 +83,14 @@ const Settings = () => {
     try {
       const payload = { username };
       if (newPassword) payload.newPassword = newPassword;
-      // Note: for actual image upload, we'd need to upload to cloud/server first
-      // Here we just send the blob URL or existing image URL if it's not a blob
-      if (profileImage && !profileImage.startsWith('blob:')) {
+      if (profileImage) {
         payload.profileImage = profileImage;
       }
       
       const res = await api.put('/auth/profile', payload);
       if (res.data.success) {
         setMessage({ type: 'success', text: 'Profile updated successfully!' });
+        window.dispatchEvent(new Event('profileUpdated'));
         setNewPassword('');
         setConfirmPassword('');
       } else {

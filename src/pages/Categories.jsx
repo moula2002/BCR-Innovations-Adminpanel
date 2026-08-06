@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
-import { Plus, Trash2, Edit2 } from 'lucide-react';
+import { Plus, Trash2, Edit2, RefreshCw } from 'lucide-react';
 import { getImageUrl } from '../utils';
 
 const Categories = ({ token }) => {
@@ -34,7 +34,12 @@ const Categories = ({ token }) => {
     }
   };
 
-  if (loading) return <div className="p-8">Loading...</div>;
+  if (loading) return (
+    <div className="flex flex-col items-center justify-center min-h-[400px]">
+      <RefreshCw className="w-10 h-10 text-bcr-blue animate-spin" />
+      <p className="mt-4 text-gray-500 font-medium animate-pulse">Loading data...</p>
+    </div>
+  );
 
   return (
     <div className="max-w-6xl mx-auto p-4 md:p-6">

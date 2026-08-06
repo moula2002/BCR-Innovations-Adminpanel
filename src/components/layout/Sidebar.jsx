@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import api from '../../services/api';
 import BcrLogo from '../BcrLogo';
 import { 
   LayoutDashboard, 
@@ -23,6 +25,31 @@ const navItems = [
 ];
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
+  const [adminProfile, setAdminProfile] = useState({ username: '', profileImage: null });
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+
+  const fetchProfile = async () => {
+    setIsLoadingProfile(true);
+    try {
+      const res = await api.get('/auth/profile');
+      if (res.data.success) {
+        setAdminProfile({
+          username: res.data.data.username || 'Admin',
+          profileImage: res.data.data.profileImage || null
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching profile in sidebar:", error);
+    } finally {
+      setIsLoadingProfile(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
+    window.addEventListener('profileUpdated', fetchProfile);
+    return () => window.removeEventListener('profileUpdated', fetchProfile);
+  }, []);
   return (
     <>
       {/* Mobile Backdrop */}
@@ -68,23 +95,42 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       
       <div className="mt-auto p-4 border-t border-admin-border bg-slate-50/50">
         <div className="flex items-center gap-3 px-2">
-          <div className="w-10 h-10 rounded-full bg-bcr-orange-light flex items-center justify-center border border-bcr-orange/20 shadow-sm">
-            <span className="font-bold text-bcr-orange">A</span>
-          </div>
-          <div className="flex flex-col flex-1">
-            <span className="text-sm font-semibold text-slate-800">Admin User</span>
-            <span className="text-xs text-admin-muted">admin@bcr.com</span>
-          </div>
-          <button 
-            onClick={() => {
-              localStorage.removeItem('adminToken');
-              window.location.href = '/';
-            }}
-            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-            title="Log Out"
-          >
-            <LogOut size={20} />
-          </button>
+          {isLoadingProfile ? (
+            <>
+              <div className="w-10 h-10 rounded-full bg-slate-200 animate-pulse shrink-0"></div>
+              <div className="flex flex-col flex-1 gap-2 overflow-hidden">
+                <div className="h-4 bg-slate-200 rounded animate-pulse w-24"></div>
+              </div>
+              <div className="w-8 h-8 rounded-lg bg-slate-200 animate-pulse"></div>
+            </>
+          ) : (
+            <>
+              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center border border-admin-border shadow-sm overflow-hidden shrink-0">
+                {adminProfile.profileImage ? (
+                  <img src={adminProfile.profileImage} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <span className="font-bold text-slate-500">
+                    {adminProfile.username.charAt(0).toUpperCase()}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col flex-1 overflow-hidden">
+                <span className="text-sm font-semibold text-slate-800 truncate" title={adminProfile.username}>
+                  {adminProfile.username}
+                </span>
+              </div>
+              <button 
+                onClick={() => {
+                  localStorage.removeItem('adminToken');
+                  window.location.href = '/';
+                }}
+                className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                title="Log Out"
+              >
+                <LogOut size={20} />
+              </button>
+            </>
+          )}
           </div>
         </div>
       </aside>
