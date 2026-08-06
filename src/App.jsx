@@ -7,8 +7,6 @@ import ProductForm from './pages/ProductForm';
 import Categories from './pages/Categories';
 import CategoryForm from './pages/CategoryForm';
 import Inquiries from './pages/Inquiries';
-import Logos from './pages/Logos';
-import Contact from './pages/Contact';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
 import Subcategories from './pages/Subcategories';
@@ -47,8 +45,6 @@ function App() {
           <Route path="careers/new" element={<CareerForm token={token} />} />
           <Route path="careers/edit/*" element={<CareerForm token={token} />} />
           <Route path="inquiries" element={<Inquiries />} />
-          <Route path="logos" element={<Logos />} />
-          <Route path="contact" element={<Contact />} />
           <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>

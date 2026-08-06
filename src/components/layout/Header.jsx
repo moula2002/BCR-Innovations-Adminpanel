@@ -7,9 +7,7 @@ const getPageTitle = (pathname) => {
     case '/products': return 'Product Management';
     case '/categories': return 'Category Management';
     case '/inquiries': return 'Inquiries';
-    case '/logos': return 'Client Logos';
-    case '/contact': return 'Contact Info';
-    case '/settings': return 'Settings';
+    case '/settings': return 'Profile Settings';
     default: return 'Admin Panel';
   }
 };

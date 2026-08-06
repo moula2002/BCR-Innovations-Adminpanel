@@ -19,9 +19,7 @@ const navItems = [
   { path: '/products', label: 'Products', icon: <Package size={20} /> },
   { path: '/careers', label: 'Careers', icon: <Briefcase size={20} /> },
   { path: '/inquiries', label: 'Inquiries', icon: <MessageSquare size={20} /> },
-  { path: '/logos', label: 'Client Logos', icon: <ImageIcon size={20} /> },
-  { path: '/contact', label: 'Contact Info', icon: <Phone size={20} /> },
-  { path: '/settings', label: 'Settings', icon: <Settings size={20} /> },
+  { path: '/settings', label: 'Profile Settings', icon: <Settings size={20} /> },
 ];
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
